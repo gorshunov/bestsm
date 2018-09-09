@@ -1,0 +1,811 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+    <title>Оценка качества стратегий социально-экономического развития муниципальных образований</title>
+	<!-- link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css" -->
+	<link rel='stylesheet' href='style.css'/>
+	<link rel='stylesheet' media='(max-width: 1030px)' href='ipad.css' />
+	<link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<!-- script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script -->
+	<script>
+		// step - номер текущего критерия {-1..20} //
+		var step = 0;
+		var res_txt = "";
+		// массив таблиц критериев //
+		var n = 14, m = 19;
+		var mas = [];
+		for (var i = 0; i < m; i++){
+			mas[i] = [];
+			for (var j = 1; j < n; j++)
+			{
+				mas[i][j] = 0;
+			}}
+		// CHECKBOX //
+		function CheckB(st,num,cb)
+		{
+			if (cb.checked) 
+			{
+				mas[st][num] = 1;
+			} 
+			else 
+			{
+				mas[st][num] = 0;
+			}
+		}
+		
+		// SOLVE //
+		function SOLVE()
+		{	
+			// step = 19;
+			var sum = [];
+			var cnt1 = 0, cnt2 = 0, cnt3 = 0;
+			for (var i = 1; i < 19; i++) // 19
+			{ 
+			sum[i] = 0;
+				for (var j = 1; j < n; j++) // 14
+				{
+					sum[i] = sum[i] + mas[i][j];
+				}
+			}
+			var res = [];
+			/// расчеты результатов //
+			if (sum[1]<4) {res[1]=3;} else if (sum[1]>3 && sum[1]<7) {res[1]=2;} else {res[1]=1;} 
+			if (sum[2]<3) {res[2]=3;} else if (sum[2]>2 && sum[2]<6) {res[2]=2;} else {res[2]=1;}
+			if (sum[3]==0) {res[3]=3;} else if (sum[3]>0 && sum[3]<4) {res[3]=2;} else {res[3]=1;}
+			if (sum[4]==0) {res[4]=3;} else if (sum[4]>0 && sum[4]<4) {res[4]=2;} else {res[4]=1;}
+			if (sum[5]<3) {res[5]=3;} else if (sum[5]>2 && sum[5]<6) {res[5]=2;} else {res[5]=1;}
+			if (sum[6]<2) {res[6]=3;} else if (sum[6]>1 && sum[6]<5) {res[6]=2;} else {res[6]=1;}
+			if (sum[7]<5) {res[7]=3;} else if (sum[7]>4 && sum[7]<10) {res[7]=2;} else {res[7]=1;}
+			if (sum[8]<2) {res[8]=3;} else if (sum[8]>1 && sum[8]<5) {res[8]=2;} else {res[8]=1;}
+			if (sum[9]<2) {res[9]=3;} else if (sum[9]>1 && sum[9]<4) {res[9]=2;} else {res[9]=1;}
+			if (sum[10]==0) {res[10]=3;} else if (sum[10]>0 && sum[10]<4) {res[10]=2;} else {res[10]=1;} 
+			if (sum[11]<3) {res[11]=3;} else if (sum[11]>2 && sum[11]<6) {res[11]=2;} else {res[11]=1;} 
+			if (sum[12]<3) {res[12]=3;} else if (sum[12]>2 && sum[12]<6) {res[12]=2;} else {res[12]=1;}
+			if (sum[13]<2) {res[13]=3;} else if (sum[13]>1 && sum[13]<4) {res[13]=2;} else {res[13]=1;}
+			if (sum[14]<2) {res[14]=3;} else if (sum[14]>1 && sum[14]<5) {res[14]=2;} else {res[14]=1;}
+			if (sum[15]<2) {res[15]=3;} else if (sum[15]>2 && sum[15]<5) {res[15]=2;} else {res[15]=1;}
+			if (sum[16]<5) {res[16]=3;} else if (sum[16]>4 && sum[16]<10) {res[16]=2;} else {res[16]=1;}
+			if (sum[17]<2) {res[17]=3;} else if (sum[17]>1 && sum[17]<5) {res[17]=2;} else {res[17]=1;}
+			if (sum[18]<2) {res[18]=3;} else if (sum[18]>1 && sum[18]<4) {res[18]=2;} else {res[18]=1;}
+			for (var i = 1; i < 19; i++)
+			{
+				if ( res[i] == 1 )
+				{
+					$("#res tr:eq("+i+") td:eq(2)").addClass("best");
+					$("#res tr:eq("+i+") td:eq(3)").removeClass("good");
+					$("#res tr:eq("+i+") td:eq(4)").removeClass("bad");
+					cnt1 = cnt1 + 1;
+				}else if ( res[i] == 2 )
+				{
+					$("#res tr:eq("+i+") td:eq(2)").removeClass("best");
+					$("#res tr:eq("+i+") td:eq(3)").addClass("good");
+					$("#res tr:eq("+i+") td:eq(4)").removeClass("bad");
+					cnt2 = cnt2 + 1;
+				}else if ( res[i] == 3 )
+				{
+					$("#res tr:eq("+i+") td:eq(2)").removeClass("best");
+					$("#res tr:eq("+i+") td:eq(3)").removeClass("good");
+					$("#res tr:eq("+i+") td:eq(4)").addClass("bad");
+					cnt3 = cnt3 + 1;
+				}
+			}
+			$("#res tr:eq(19) td:eq(2)").text(cnt1);
+			$("#res tr:eq(19) td:eq(3)").text(cnt2);
+			$("#res tr:eq(19) td:eq(4)").text(cnt3);
+			// вывод результатов 
+			$("#ans1").hide();
+			$("#ans2").hide();
+			$("#ans3").hide();
+			if (cnt1>cnt2 && cnt1>cnt3) {$("#ans1").show();}
+			else if (cnt2>cnt1 && cnt2>cnt3) {$("#ans2").show();}
+			else if (cnt3>cnt1 && cnt3>cnt2) {$("#ans3").show();}
+			else if (cnt1==cnt2 && cnt2>cnt3) {$("#ans2").show();}
+			else if (cnt1==cnt3 && cnt3>cnt2) {$("#ans3").show();}
+			else if (cnt2==cnt3 && cnt3>cnt1) {$("#ans3").show();}
+			else if (cnt2==cnt3 && cnt2==cnt1) {$("#ans3").show();};
+			// uncheck positions //
+			var text_res = [];
+				text_res[1] = "Критерий целенаправленности";
+				text_res[2] = "Критерий социальности";
+				text_res[3] = "Критерий комплексности";
+				text_res[4] = "Критерий сбалансированности";
+				text_res[5] = "Критерий системности";
+				text_res[6] = "Критерий адаптивности";
+				text_res[7] = "Критерий эффективности";
+				text_res[8] = "Критерий минимизации риска";
+				text_res[9] = "Критерий баланса интересов";
+				text_res[10] = "Критерий легитимности";
+				text_res[11] = "Критерий демократичности";
+				text_res[12] = "Критерий профессионализма";
+				text_res[13] = "Критерий «первого руководителя»";
+				text_res[14] = "Критерий инновационности";
+				text_res[15] = "Критерий динамичности";
+				text_res[16] = "Критерий устойчивого развития";
+				text_res[17] = "Критерий соответствия местным ресурсам";
+				text_res[18] = "Критерий соответствия с документами территориального планирования";
+			var pos_txt = "";
+			res_txt = "";
+			var fl1 = 0;
+			for (var i = 1; i < 19; i++)
+			{			
+				var lbl_txt = ""; 
+				var fl = 0;
+				for (var j = 1; j < 14; j++)
+				{
+					lbl_txt = $("#lab"+i+"_"+j).text();
+					if (mas[i][j] == 0 && lbl_txt != "")
+					{
+						fl = fl + 1;
+						fl1 = fl1 + 1;
+						if (fl == 1) res_txt = res_txt + "<i><b>" + text_res[i] + "</b></i><br>";
+						res_txt = res_txt + lbl_txt + "<br>";
+					};
+				}
+				if (fl > 0) res_txt = res_txt + "<br>";
+			}
+			if (fl1 > 0 )
+			{
+				res_txt = "<p><b>Для совершенствования стратегии необходимо разработать план мероприятий,<br>которые позволят положительно ответить на следующие утверждения/вопросы:</b></p>" + res_txt;
+			}else if (res_txt === "")
+				{
+					res_txt = "<p><b>Достигнут наивысший уровень оценки качества стратегий<br>социально-экономического развития муниципальных образований.</b></p>";
+				}
+			$("#ness_act").html(res_txt);
+		};
+		
+		// Click button //
+		function ClButton(stp)
+		{
+			step = stp;
+			for (var i = 0; i < 21; i++)
+			{
+				$("#test"+i).hide("slow");
+				$("#st"+i).removeClass("active")
+			}
+			if (stp > 0)
+			{
+				$("#prevbtn").show("fast");
+				$("#nextbtn").show("fast");
+				if (stp == 20)
+				{
+					$("#nextbtn").hide("fast");
+				}
+			} else if (stp == 0) 
+			{
+				$("#prevbtn").hide("fast");
+			} 
+			$(".progressbar").width(stp*5.55+"%");
+			$("#st"+stp).addClass("active");
+			$("#test"+stp).show("fast");
+			if (stp > 18) // show results //
+			{
+				SOLVE();
+			}
+		}
+		function START()
+		{
+		
+			if (step == 0)
+			{
+			$(".progr_table td").css( "background-color", "#fff" );
+			$(".progr_table td").css( "border-color", "#000" );
+			$(".progr_table td").css( "color", "#000" );	
+			$("#test0").hide("fast");
+			$(".progr_table").show("fast");
+			$(".progr_table td:eq("+step+")").css( "background-color", "#3367d6" );
+			$(".progr_table td:eq("+step+")").css( "border-color", "#000" );
+			$(".progr_table td:eq("+step+")").css( "color", "#fff" );	
+			step = step + 1; 
+			if (step == 1) 
+			{ 
+				$("#STEPS").show("fast");
+				$("#startbtn").hide("fast");
+				$("#nextbtn").show("fast");
+				$("#prevbtn").show("fast");
+				$("#test"+step).show("fast");
+				$("#st"+step).addClass("active");
+			}		
+			}
+		}
+		function NEXT()
+		{
+			if (step < 20 && step > 0)
+			{
+				for (var i = 0; i < 21; i++)
+				{
+					$("#test"+i).hide("slow");
+					$("#st"+i).removeClass("active");
+				}
+				$(".progr_table td:eq("+step+")").css( "background-color", "#3367d6" );
+				$(".progr_table td:eq("+step+")").css( "border-color", "#000" );
+				$(".progr_table td:eq("+step+")").css( "color", "#fff" );				
+				step = step + 1;
+				if (step > 0)
+				{
+					$("#prevbtn").show("fast");
+				} else if (step == 0) 
+				{	
+					$("#STEPS").show("fast");
+					$("#nextbtn").show("fast");
+					$("#prevbtn").show("fast");
+					$("#startbtn").hide("fast");
+					$(".progr_table").show("fast");
+				}
+				$("#st"+step).addClass("active");
+				$("#test"+step).show("fast");
+				if (step > 18) // show results //
+				{
+					SOLVE();
+				} else $(".progressbar").width(step*5.55+"%");
+			}
+			if (step == 20)
+			{
+				$("#nextbtn").hide("fast");
+			}
+		}
+		function PREV()
+		{
+			if (step > 0)
+			{
+				for (var i = 0; i < 21; i++)
+				{
+					$("#test"+i).hide("slow");
+					$("#st"+i).removeClass("active");
+				}
+				step = step - 1;
+				if (step > 1)
+				{
+					$("#prevbtn").show("fast");
+					$("#nextbtn").show("fast");
+				} else if (step == 0)
+				{
+					$("#prevbtn").hide("fast");
+
+					$("#STEPS").hide("fast");
+					$("#startbtn").show("fast");
+					$("#nextbtn").hide("fast");
+					$("#test"+step).show("fast");					
+					$(".progr_table").hide("fast");	
+					
+				}
+				$("#st"+step).addClass("active");
+				if (step < 18) $(".progressbar").width(step*5.55+"%");
+				$("#test"+step).show("fast");
+			}
+		}
+  </script>
+  <script>
+	$(document).ready(function(){
+		// start button //
+		$("#startbtn").click(START); 
+		// next button //
+		$("#nextbtn").click(NEXT);
+		// prev button //
+		$("#prevbtn").click(PREV);
+	});
+	// keyboards events //
+	$(document).keydown(function(e)
+	{
+		switch(e.keyCode)
+		{
+			case 37:
+				PREV();
+				break;
+			case 39:
+				NEXT();
+				break;
+			case 32:
+				START();
+				break;
+		};		
+	});
+  </script>
+  </head>
+  <body>
+
+	<div class="head">
+		<div class="progressbar">
+			<p style="margin-left:10px;">Оценка качества стратегий социально-экономического развития муниципальных образований</p>
+		</div>
+		<div class="progress">
+			<table class="progr_table" style="width:100%;background-color:white;border-right:1px solid;">
+			<tbody><tr>
+			<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td>
+			<td>10</td><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td>
+			</tr>
+			</tbody></table>
+		</div>
+	</div>
+	<table id="mn_table" style="width:100%; border: 0px solid;">
+	<tbody><tr>
+	<!-- left column - steps -->
+	<td style="border: 0px solid;width:10%;vertical-align:top;">
+		<div id="STEPS">
+			<!-- button id="st0" onclick="ClButton(0);" class="active">Обзор</button -->
+			<button id="st1" onclick="ClButton(1);" class="active">Целенаправленность</button>
+			<button id="st2" onclick="ClButton(2);">Социальность</button>
+			<button id="st3" onclick="ClButton(3);">Комплексность</button>
+			<button id="st4" onclick="ClButton(4);">Сбалансированность </button>
+			<button id="st5" onclick="ClButton(5);">Системность</button>
+			<button id="st6" onclick="ClButton(6);">Адаптивность</button>
+			<button id="st7" onclick="ClButton(7);">Эффективность</button>
+			<button id="st8" onclick="ClButton(8);">Минимизация риска</button>
+			<button id="st9" onclick="ClButton(9);">Баланс интересов</button>
+			<button id="st10" onclick="ClButton(10);">Легитимность</button>
+			<button id="st11" onclick="ClButton(11);">Демократичность</button>
+			<button id="st12" onclick="ClButton(12);">Профессионализм</button>
+			<button id="st13" onclick="ClButton(13);">Принцип «Первого руководителя»</button>
+			<button id="st14" onclick="ClButton(14);">Инновационность</button>
+			<button id="st15" onclick="ClButton(15);">Динамичность</button>
+			<button id="st16" onclick="ClButton(16);">Устойчивость развития</button>
+			<button id="st17" onclick="ClButton(17);">Соответствие местным ресурсам</button>
+			<button id="st18" onclick="ClButton(18);">Соответствие с документами<br>территориального планирования</button>
+			<button id="st19" onclick="ClButton(19);">РЕЗУЛЬТАТЫ</button><br>
+			<button id="st20" onclick="ClButton(20);">МЕРОПРИЯТИЯ<br>ДЛЯ УЛУЧШЕНИЯ</button>
+		</div>
+	</td>
+	<!-- center column - questions -->
+	<td style="border: 0px solid;vertical-align:top;text-align:-webkit-center;">
+	<div class="questions">
+		<div id="test1">
+			<div class="descr">
+			<p><b>Критерий целенаправленности</b>, который предполагает обоснование в стратегии целей и приоритетов социально-экономического развития, а также приоритетные для данного муниципального образования функции. К обязательным элементам разработки стратегии традиционно относятся SWOT-анализ.</p>
+			<p>Критерий целенаправленности стратегии оценивается по следующим индикаторам:</p>
+			</div>
+			<div class="checkboxes">
+		    <label id="lab1_1"><input type="checkbox" onclick="CheckB(1,1,this);">1. Определена миссия МО</label><br>
+			<label id="lab1_2"><input type="checkbox" onclick="CheckB(1,2,this);">2. При разработке стратегии развития МО проводился полноценный SWOT-анализ</label><br>
+			<label id="lab1_3"><input type="checkbox" onclick="CheckB(1,3,this);">3. Формулировка миссии исключает возможность неоднозначного толкования</label><br>
+			<label id="lab1_4"><input type="checkbox" onclick="CheckB(1,4,this);">4. Выделены стратегические цели&nbsp;МО</label><br>
+			<label id="lab1_5"><input type="checkbox" onclick="CheckB(1,5,this);">5. Найдено место МО в системе регионального разделения труда</label><br>
+			<label id="lab1_6"><input type="checkbox" onclick="CheckB(1,6,this);">6. Выделены стратегические направления&nbsp;МО</label><br>
+			<label id="lab1_7"><input type="checkbox" onclick="CheckB(1,7,this);">7. Выделены задачи МО</label><br>
+			<label id="lab1_8"><input type="checkbox" onclick="CheckB(1,8,this);">8. Проработаны мероприятия по реализации стратегии&nbsp;МО</label><br>
+			<label id="lab1_9"><input type="checkbox" onclick="CheckB(1,9,this);">9. Разработаны индикаторы контроля выполнения стратегии&nbsp;МО</label><br>
+			</div>
+		</div>
+		<div id="test2">
+			<div class="descr">
+			<p>Следование <b>критерию социальности</b>, который означает, что при формировании стратегических целей и механизмов их реализации во главу угла должны быть положены интересы жителей, приоритетное решение проблем повышения качества жизни населения.</p>
+			<p>Критерий социальности стратегии оценивается по следующим индикаторам:</p>
+			</div>
+			<div class="checkboxes">
+		    <label id="lab2_1"><input type="checkbox" onclick="CheckB(2,1,this);">1. В миссии МО отражено приоритетное положение повышения уровня жизни населения МО</label><br>
+			<label id="lab2_2"><input type="checkbox" onclick="CheckB(2,2,this);">2. В стратегических целях отражено повышение уровня жизни населения&nbsp;МО</label><br>
+			<label id="lab2_3"><input type="checkbox" onclick="CheckB(2,3,this);">3. В мероприятиях по реализации стратегии МО разработаны меры по повышению уровня жизни населения&nbsp;МО</label><br>
+			<label id="lab2_4"><input type="checkbox" onclick="CheckB(2,4,this);">4. При разработке мероприятий по реализации стратегии МО происходил публичный анализ предложений</label><br>
+			<label id="lab2_5"><input type="checkbox" onclick="CheckB(2,5,this);">5. Учтены предложения жителей МО при формировании мероприятий по реализации стратегии&nbsp;МО</label><br>
+			<label id="lab2_6"><input type="checkbox" onclick="CheckB(2,6,this);">6. Разработаны качественные и количественные индикаторы оценки уровня жизни&nbsp;в&nbsp;МО</label><br>
+			<label id="lab2_7"><input type="checkbox" onclick="CheckB(2,7,this);">7. Определены ответственные и сроки исполнения мероприятий для повышения уровня жизни в&nbsp;МО</label><br>
+			</div>
+		</div>
+		<div id="test3">
+			<div class="descr">
+			<p>Соблюдение требований <b>критерия комплексности</b> при формировании стратегии означает рассмотрение приоритетных функций, реализуемых органами власти, в контексте всей совокупности прогнозных социально-экономических характеристик и факторов развития.</p>
+			<p>Критерий комплексности стратегии оценивается по следующим индикаторам:</p>
+			</div>
+			<div class="checkboxes">
+		    <label id="lab3_1"><input type="checkbox" onclick="CheckB(3,1,this);">1. Разделены задачи развития МО на группы экономического, социального и политического блока</label><br>
+			<label id="lab3_2"><input type="checkbox" onclick="CheckB(3,2,this);">2. Сделан прогноз о влиянии реализации отдельных групп мероприятий на смежные сферы реализации стратегии</label><br>
+			<label id="lab3_3"><input type="checkbox" onclick="CheckB(3,3,this);">3. Оценено влияние повышения покупательской способности населения&nbsp;МО на развитие среднего и малого бизнеса </label><br>
+			<label id="lab3_4"><input type="checkbox" onclick="CheckB(3,4,this);">4. Отсутствуют мероприятия, отнесенные к разным блокам, но направленные на одинаковую целевую группу и&nbsp;имеющие&nbsp;идентичные&nbsp;цели</label><br>
+			<label id="lab3_5"><input type="checkbox" onclick="CheckB(3,5,this);">5. Реформирование образовательных процессов соответствует требованием рынка труда</label><br>
+			</div>
+		</div>
+		<div id="test4">
+			<div class="descr">
+			<p>Соблюдение <b>критерия сбалансированности</b> обязывает выдерживать логическое и последовательное изменение показателей в процессе планирования механизмов реализации стратегии и увязка их с прогнозными количественными показателями.</p>
+			<p>Критерий сбалансированности стратегии оценивается по следующим индикаторам:</p>
+			</div>
+			<div class="checkboxes">
+		    <label id="lab4_1"><input type="checkbox" onclick="CheckB(4,1,this);">1. Рост промышленности обеспечен энергетическими мощностями, трудовыми ресурсами и наличием инфраструктуры</label><br>
+			<label id="lab4_2"><input type="checkbox" onclick="CheckB(4,2,this);">2. В прогнозе численности населения МО учтена миграционная динамика за идентичный период</label><br>
+			<label id="lab4_3"><input type="checkbox" onclick="CheckB(4,3,this);">3. Приток населения в МО обеспечен наличием свободных жилых площадей</label><br>
+			<label id="lab4_4"><input type="checkbox" onclick="CheckB(4,4,this);">4. Увеличение/сокращение учебных и медицинских учреждений обеспечены транспортной доступностью</label><br>
+			<label id="lab4_5"><input type="checkbox" onclick="CheckB(4,5,this);">5. Развитие промышленности не влияет на прогнозные экологические показатели</label><br>
+			</div>
+		</div>
+		<div id="test5">
+			<div class="descr">
+			<p><b>Критерий системности</b>, который означает, что определение стратегических целей развития муниципального образования и механизмов их реализации должно осуществляться с учетом взаимосвязей, характеризующих взаимозависимость его развития с развитием других субъектов РФ, муниципальных образований, страны в целом.</p>
+			<p>Критерий системности стратегии оценивается по следующим индикаторам:</p>
+			</div>
+			<div class="checkboxes">
+		    <label id="lab5_1"><input type="checkbox" onclick="CheckB(5,1,this);">1. Разработаны механизмы взаимодействия с муниципальными образованиями низшего уровня</label><br>
+			<label id="lab5_2"><input type="checkbox" onclick="CheckB(5,2,this);">2. Разработаны механизмы взаимодействия с соседними муниципальными образованиями соответствующего уровня</label><br>
+			<label id="lab5_3"><input type="checkbox" onclick="CheckB(5,3,this);">3. Определены общие зоны ответственности в различных сферах с соседними муниципальными образованиями соответствующего уровня</label><br>
+			<label id="lab5_4"><input type="checkbox" onclick="CheckB(5,4,this);">4. При разработке стратегии изучены тенденции стратегического развития соседних муниципальных образований соответствующего уровня</label><br>
+			<label id="lab5_5"><input type="checkbox" onclick="CheckB(5,5,this);">5. Учтены региональные плановые показатели</label><br>
+			<label id="lab5_6"><input type="checkbox" onclick="CheckB(5,6,this);">6. Цели и задачи укладываются в региональную стратегию социально-экономического развития</label><br>
+			<label id="lab5_7"><input type="checkbox" onclick="CheckB(5,7,this);">7. Определены общие сферы деятельности и мероприятия с приграничными  территориями Европейского&nbsp;союза</label><br>
+			<label id="lab5_8"><input type="checkbox" onclick="CheckB(5,8,this);">8. Проработано участие в мероприятиях Федеральных целевых программ</label><br>
+			</div>
+		</div>
+		<div id="test6">
+			<div class="descr">
+			<p>Следование требованиям <b>критерию адаптивности</b>, определяет необходимость осуществления стратегии с учетом возможных изменений внешней среды, которые могут привести к корректировке целей, приоритетов и механизмов их реализации. Такая корректировка должна проводиться с наименьшими политическими, социальными и экономическими издержками.</p>
+			<p>Критерий адаптивности стратегии оценивается по следующим индикаторам:</p>
+			</div>
+			<div class="checkboxes">
+		    <label id="lab6_1"><input type="checkbox" onclick="CheckB(6,1,this);">1. Заложена возможность корректировки целей, задач, приоритетов и механизмов реализации развития&nbsp;МО</label><br>
+			<label id="lab6_2"><input type="checkbox" onclick="CheckB(6,2,this);">2. Заложены механизмы антикризисного управления</label><br>
+			<label id="lab6_3"><input type="checkbox" onclick="CheckB(6,3,this);">3. Разработаны мероприятия по ослаблению негативных внешних факторов</label><br>
+			<label id="lab6_4"><input type="checkbox" onclick="CheckB(6,4,this);">4. Разработаны меру по сдерживанию потенциально опасных тенденций изменения внешней среды</label><br>
+			<label id="lab6_5"><input type="checkbox" onclick="CheckB(6,5,this);">5. Разработан механизм наполнения и расходования фонда непредвиденных расходов&nbsp;МО</label><br>
+			<label id="lab6_6"><input type="checkbox" onclick="CheckB(6,6,this);">6. Разработана группа альтернативных задач имеющих меньший приоритет в современных условиях</label><br>
+			<label id="lab6_7"><input type="checkbox" onclick="CheckB(6,7,this);">7. Разработаны альтернативные сценарии развития&nbsp;МО</label><br>
+			</div>
+		</div>
+		<div id="test7">
+			<div class="descr">
+			<p>Соблюдение <b>критерия эффективности</b> при формировании концепции развития муниципального образования означает необходимость доказательства, что предлагаемый набор целей экономического развития, функций, определенных в качестве приоритетных, намеченные пути их реализации обеспечат скорейшее достижение требуемого качества жизни населения с наименьшими финансовыми затратами и социальными издержками. Для объективности анализа и эффективной разработки стратегии, помимо SWOT-анализа, к обязательным элементам разработки относят SNW-анализ и  PEST-анализ.</p>
+			<p>На основе знания сильных и слабых сторон, внешних возможностей и угроз составляется матрица мероприятий: SO - мероприятия, которые необходимо провести, чтобы использовать сильные стороны для увеличения возможностей системы, WO – мероприятия, которые необходимо провести, преодолевая слабые стороны и используя представленные возможности; ST – мероприятия, которые используют сильные стороны сиситемы для избежания угроз; WT – мероприятия, которые минимизируют слабые стороны для избежания угроз. Далее происходит отбор и ранжирование мероприятий.</p>
+			<p>На основе SWOT-анализа могут моделироваться возможные (альтернативные) сценарии развития системы в зависимости от внешних условий,  оценивается вероятность реализации того или другого сценария развития, после чего осуществляется выбор конкретной стратегической альтернативы, которая и является конечным результатом стратегического анализа.</p>
+			<p>Критерий эффективности стратегии оценивается по следующим индикаторам:</p>
+			</div>
+			<div class="checkboxes">
+		    <label id="lab7_1"><input type="checkbox" onclick="CheckB(7,1,this);">1. Разработана методика оценки социально-экономического эффекта при реализации приоритетных задач и мероприятий развития МО </label><br>
+			<label id="lab7_2"><input type="checkbox" onclick="CheckB(7,2,this);">2. Стратегические и оперативные цели дифференцированы по уровню и содержанию (составлено&nbsp;«дерево&nbsp;целей»)</label><br>
+			<label id="lab7_3"><input type="checkbox" onclick="CheckB(7,3,this);">3. Стратегические цели определены как конечное состояние, к которому должна прийти региональная система образования за определенный стратегический период</label><br>
+			<label id="lab7_4"><input type="checkbox" onclick="CheckB(7,4,this);">4. Указаны запланированные изменения показателей по ходу реализации стратегии с указанием сроков (относительное&nbsp;статистическое&nbsp;выражение)</label><br>
+			<label id="lab7_5"><input type="checkbox" onclick="CheckB(7,5,this);">5. Определены субъекты контроля над ходом реализации стратегии в&nbsp;МО</label><br>
+			<label id="lab7_6"><input type="checkbox" onclick="CheckB(7,6,this);">6. Просчитаны возможные социальные издержки и методы их нейтрализации при реализации стратегии</label><br>
+			<label id="lab7_7"><input type="checkbox" onclick="CheckB(7,7,this);">7. Четко обозначен и обоснован выбор конкретной стратегической альтернативы</label><br>
+			<label id="lab7_8"><input type="checkbox" onclick="CheckB(7,8,this);">8. Стратегические задачи и мероприятия соответствуют SMART&nbsp;–&nbsp;системе</label><br>
+			<label id="lab7_9"><input type="checkbox" onclick="CheckB(7,9,this);">9. При разработке стратегии развития МО проводился полноценный PEST-анализ</label><br>
+			<label id="lab7_10"><input type="checkbox" onclick="CheckB(7,10,this);">10. Миссия и стратегия учитывают результаты SNW-анализа</label><br>
+			<label id="lab7_11"><input type="checkbox" onclick="CheckB(7,11,this);">11. Определена иерархия и последовательность решения задач</label><br>
+			<label id="lab7_12"><input type="checkbox" onclick="CheckB(7,12,this);">12. Сформулированные задачи не противоречат друг другу</label><br>
+			<label id="lab7_13"><input type="checkbox" onclick="CheckB(7,13,this);">13. Определена структура, занимающаяся текущим стратегическим управлением&nbsp;МО</label><br>
+			</div>
+		</div>
+		<div id="test8">
+			<div class="descr">
+			<p>Принятие и реализация стратегии развития представляет собой сложную совокупность управленческих решений, сопряженных с определенным риском, поэтому следование критерию <b>минимизации риска</b> означает, что в процессе формирования стратегического выбора должны быть оценены различные риски, обусловленные выполнением тех или иных приоритетных функций в будущем. Основные характеристики исследуемых и прогнозируемых рисков в обязательном порядке должны быть учтены при сравнительном анализе предполагаемых вариантов стратегического выбора муниципального образования.</p>
+			<p>Критерий минимизации риска стратегии оценивается по следующим индикаторам:</p>
+			</div>
+			<div class="checkboxes">
+		    <label id="lab8_1"><input type="checkbox" onclick="CheckB(8,1,this);">1. Выделены риски в пяти сферах жизнедеятельности МО: социальной, экономической, политической, <nobr>природно-техногенной и научно-технической.</nobr></label><br>
+			<label id="lab8_2"><input type="checkbox" onclick="CheckB(8,2,this);">2. Спрогнозированы показатели возможного ущерба</label><br>
+			<label id="lab8_3"><input type="checkbox" onclick="CheckB(8,3,this);">3. Разработаны меры минимизации возможного ущерба</label><br>
+			<label id="lab8_4"><input type="checkbox" onclick="CheckB(8,4,this);">4. Выявлены первопричины возникновения рисков</label><br>
+			<label id="lab8_5"><input type="checkbox" onclick="CheckB(8,5,this);">5. Просчитаны риски по нескольким сценариям развития&nbsp;МО</label><br>
+			<label id="lab8_6"><input type="checkbox" onclick="CheckB(8,6,this);">6. Выбранный сценарий развития наименее подвержен ущербу при возникновении рисков</label><br>
+			</div>
+		</div>
+		<div id="test9">
+			<div class="descr">
+			<p><b>Критерий баланса интересов</b> многозначен и предполагает обязательное нахождение  консенсуса между властными структурами различного уровня и профессиональными, общественными группами населения, относительно сформулированных стратегических целей и приоритетов развития, а также механизмов их реализации.</p>
+			<p>Критерий баланса интересов в стратегии оценивается по следующим индикаторам:</p>
+			</div>
+			<div class="checkboxes">
+		    <label id="lab9_1"><input type="checkbox" onclick="CheckB(9,1,this);">1. В стратегии МО заложен механизм общественного контроля над исполнением стратегических задач</label><br>
+			<label id="lab9_2"><input type="checkbox" onclick="CheckB(9,2,this);">2. В стратегии МО заложены принципы «гражданского общества»</label><br>
+			<label id="lab9_3"><input type="checkbox" onclick="CheckB(9,3,this);">3. Стратегия МО сбалансирована со стратегиями приграничных территорий&nbsp;ЕС</label><br>
+			<label id="lab9_4"><input type="checkbox" onclick="CheckB(9,4,this);">4. В определении места в системе регионального разделения труда нет противоречий с соседними МО соответствующего уровня</label><br>
+			<label id="lab9_5"><input type="checkbox" onclick="CheckB(9,5,this);">5. В стратегии отражены основные принципы федеральной политики</label><br>
+			<label id="lab9_6"><input type="checkbox" onclick="CheckB(9,6,this);">6. В стратегии отстаиваются основные принципы региональной политики</label><br>
+			</div>
+		</div>
+		<div id="test10">
+			<div class="descr">
+			<p><b>Критерий легитимности</b> предусматривает обязательность рассмотрения и принятия предложенного варианта стратегии развития органами власти.</p>
+			<p>Критерий легитимности стратегии оценивается по следующим индикаторам:</p>
+			</div>
+			<div class="checkboxes">
+		    <label id="lab10_1"><input type="checkbox" onclick="CheckB(10,1,this);">1. Проект документа стратегии официально одобрен муниципальным органом исполнительной власти</label><br>
+			<label id="lab10_2"><input type="checkbox" onclick="CheckB(10,2,this);">2. Проект документа стратегии официально одобрен муниципальным органом представительной власти</label><br>
+			<label id="lab10_3"><input type="checkbox" onclick="CheckB(10,3,this);">3. Проект документа стратегии прошел юридическую экспертизу</label><br>
+			<label id="lab10_4"><input type="checkbox" onclick="CheckB(10,4,this);">4. Проект документа стратегии официально одобрен региональным органом исполнительной власти</label><br>
+			<label id="lab10_5"><input type="checkbox" onclick="CheckB(10,5,this);">5. Проект документа стратегии официально одобрен региональным органом представительной власти</label><br>
+			</div>
+		</div>
+		<div id="test11">
+			<div class="descr">
+			<p>С критериями легитимности и баланса интересов тесно связан <b>критерий демократичности</b>, означающий гласность и открытость хода и результатов работ по формированию концепции, привлечение к рассмотрению и экспертизе проектов документов научной общественности и населения.</p>
+			<p>Критерий демократичности стратегии оценивается по следующим индикаторам:</p>
+			</div>
+			<div class="checkboxes">
+		    <label id="lab11_1"><input type="checkbox" onclick="CheckB(11,1,this);">1. Стратегия развития МО опубликована в официальных источниках</label><br>
+			<label id="lab11_2"><input type="checkbox" onclick="CheckB(11,2,this);">2. Проводилось общественное обсуждение проекта стратегии&nbsp;МО</label><br>
+			<label id="lab11_3"><input type="checkbox" onclick="CheckB(11,3,this);">3. Стратегия развития МО получила общественное одобрение в процессе обсуждения</label><br>
+			<label id="lab11_4"><input type="checkbox" onclick="CheckB(11,4,this);">4. В проект документа стратегии по результатам общественного обсуждения внесены поправки и&nbsp;дополнения</label><br>
+			<label id="lab11_5"><input type="checkbox" onclick="CheckB(11,5,this);">5. Документ стратегии доступен для ознакомления широких слоев общественности <nobr>(опубликован отдельной брошюрой,</nobr> <nobr>размещен в Интернет,</nobr> <nobr>разослан по образовательным учреждениям)</nobr></label><br>
+			<label id="lab11_6"><input type="checkbox" onclick="CheckB(11,6,this);">6. К разработке стратегии привлекались представители некоммерческих организаций&nbsp;МО</label><br>
+			<label id="lab11_7"><input type="checkbox" onclick="CheckB(11,7,this);">7. К разработке стратегии привлекались представители предпринимательства&nbsp;МО</label><br>
+			<label id="lab11_8"><input type="checkbox" onclick="CheckB(11,8,this);">8. Ознакомление со стратегией жителями МО подтверждено социологическим опросом</label><br>
+			</div>
+		</div>
+		<div id="test12">
+			<div class="descr">
+			<p>Реализация <b>критерия профессионализма</b> при формировании концепции обеспечивается специальной подготовкой участников работ, созданием необходимой методической и информационной базы, привлечением к разработке специалистов из вышестоящих систем управления, занимающихся решением региональных проблем, организацией независимой экспертизы.</p>
+			<p>Критерий профессионализма стратегии оценивается по следующим индикаторам:</p>
+			</div>
+			<div class="checkboxes">
+		    <label id="lab12_1"><input type="checkbox" onclick="CheckB(12,1,this);">1. Все участники работ имели опыт разработки стратегических документов</label><br>
+			<label id="lab12_2"><input type="checkbox" onclick="CheckB(12,2,this);">2. Проведен установочный семинар перед началом работ над разработкой стратегии</label><br>
+			<label id="lab12_3"><input type="checkbox" onclick="CheckB(12,3,this);">3. К работе над разработкой стратегии привлекались внешние эксперты</label><br>
+			<label id="lab12_4"><input type="checkbox" onclick="CheckB(12,4,this);">4. К работе над разработкой стратегии привлекались эксперты областной администрации (правительства)</label><br>
+			<label id="lab12_5"><input type="checkbox" onclick="CheckB(12,5,this);">5. При работе над стратегией подготовлена научно-методическая база, сформированная в отдельный документ</label><br>
+			<label id="lab12_6"><input type="checkbox" onclick="CheckB(12,6,this);">6. Проведена независимая внешняя экспертиза стратегии&nbsp;МО</label><br>
+			<label id="lab12_7"><input type="checkbox" onclick="CheckB(12,7,this);">7. По итогам независимой внешней экспертизы внесены поправки и дополнения</label><br>
+			</div>
+		</div>
+		<div id="test13">
+			<div class="descr">
+			<p><b>Критерий «первого руководителя»</b> означает включенность в формирование концепции «первых лиц» субъекта РФ или муниципалитета. Решение сложной задачи стратегического планирования, безусловно, предполагает привлечение ученых и специалистов в данной сфере, так как эта работа связана с большим объемом прогнозно-аналитических работ. Однако прерогативой высших руководителей субъекта РФ является осуществление стратегического выбора региона, сравнительная оценка стратегических альтернатив, так как они несут, в конечном счете, всю полноту ответственности за результаты реализации стратегического плана.</p>
+			<p>Критерий «первого руководителя» при разработке стратегии оценивается по следующим индикаторам:</p>
+			</div>
+			<div class="checkboxes">
+		    <label id="lab13_1"><input type="checkbox" onclick="CheckB(13,1,this);">1. Для разработки стратегии создана рабочая группа под руководством Главы&nbsp;МО</label><br>
+			<label id="lab13_2"><input type="checkbox" onclick="CheckB(13,2,this);">2. В состав рабочей группы по разработке стратегии входит председатель представительного органа власти&nbsp;МО</label><br>
+			<label id="lab13_3"><input type="checkbox" onclick="CheckB(13,3,this);">3. В состав рабочей группы по разработке стратегии входят заместители Главы&nbsp;МО</label><br>
+			<label id="lab13_4"><input type="checkbox" onclick="CheckB(13,4,this);">4. Глава МО является разработчиком части стратегии&nbsp;МО</label><br>
+			<label id="lab13_5"><input type="checkbox" onclick="CheckB(13,5,this);">5. Глава МО является ответственным за реализацию стратегии&nbsp;МО</label><br>
+			</div>
+		</div>
+		<div id="test14">
+			<div class="descr">
+			<p><b>Критерий инновационности</b>, подразумевает учет в стратегии ориентацию производительных сил на инновационную деятельность и на модернизацию существующих производительных сил. Инновационные методы должны приниматься не только в сфере промышленности. Инновационность необходимо понимать в широком смысле. Инновационные методы управления должны играть не меньшую роль, чем новые технологии в промышленности. Выделение средств на инновационную деятельность должно происходить на всех уровнях государственного управления. В муниципальных образованиях должны быть созданы все условия для развития инновационной деятельности и постоянно выделяться средства из бюджета на развитие инновационной деятельности.</p>
+			<p>Критерий инновационности стратегии оценивается по следующим индикаторам:</p>
+			</div>
+			<div class="checkboxes">
+		    <label id="lab14_1"><input type="checkbox" onclick="CheckB(14,1,this);">1. В стратегии МО определены инновационные направления развития</label><br>
+			<label id="lab14_2"><input type="checkbox" onclick="CheckB(14,2,this);">2. В системе образования заложены принципы развития у молодежи инновационной деятельности и изобретательства</label><br>
+			<label id="lab14_3"><input type="checkbox" onclick="CheckB(14,3,this);">3. В аппарате администрации МО заложены технологии стимулирования генерации инновационных решений<nobr>и методов управления</nobr></label><br>
+			<label id="lab14_4"><input type="checkbox" onclick="CheckB(14,4,this);">4. В бюджете МО предусмотрены ассигнования на научно-технические исследования и инновационную деятельность</label><br>
+			<label id="lab14_5"><input type="checkbox" onclick="CheckB(14,5,this);">5. В миграционной части стратегии, технические специалисты определены как приоритетная группа<nobr>для привлечения на постоянное место жительства в&nbsp;МО</nobr></label><br>
+			<label id="lab14_6"><input type="checkbox" onclick="CheckB(14,6,this);">6. Предусмотрено создание условий для получения патентов на изобретения для жителей и резидентов&nbsp;МО</label><br>
+			</div>
+		</div>
+		<div id="test15">
+			<div class="descr">
+			<p>В условии экономического вызова, в котором сегодня оказалась Россия, медлительность в преобразованиях подобна государственному саботажу. Тот путь, который прошли многие страны западной Европы за 15-20 лет, Россия должна преодолеть за 5-8 лет. А подобный результат возможен только при динамическом характере преобразований. Динамичность реформ не означает поспешность и не обдуманность принимаемых решений. Все решения и действия должны быть продуманны и взвешены, но на принятие решений не должны уходить годы – у России  их просто нет.</p>
+			<p><b>Критерий динамичности стратегии</b> оценивается по следующим индикаторам:</p>
+			</div>
+			<div class="checkboxes">
+		    <label id="lab15_1"><input type="checkbox" onclick="CheckB(15,1,this);">1. Стратегические цели развития МО определены на перспективу&nbsp;5-8&nbsp;лет</label><br>
+			<label id="lab15_2"><input type="checkbox" onclick="CheckB(15,2,this);">2. Мероприятия разработаны на перспективу 2 лет и обозначены предполагаемые мероприятия на перспективу 5&nbsp;и&nbsp;8&nbsp;лет, которые носят характер эволюционного развития</label><br>
+			<label id="lab15_3"><input type="checkbox" onclick="CheckB(15,3,this);">3. По всем мероприятиям определены предполагаемые объемы и источники финансирования</label><br>
+			<label id="lab15_4"><input type="checkbox" onclick="CheckB(15,4,this);">4. По всем мероприятиям определены конкретные сроки исполнения</label><br>
+			<label id="lab15_5"><input type="checkbox" onclick="CheckB(15,5,this);">5. В стратегию заложены механизмы повышения производительности труда во всех сферах развития&nbsp;МО</label><br>
+			<label id="lab15_6"><input type="checkbox" onclick="CheckB(15,6,this);">6. В стратегию заложены механизмы оптимизации управления&nbsp;МО</label><br>
+			</div>
+		</div>
+		<div id="test16">
+			<div class="descr">
+			<p><b>Критерий устойчивого развития</b> оценивается по следующим индикаторам:</p>
+			</div>
+			<div class="checkboxes">
+			<label id="lab16_1"><input type="checkbox" onclick="CheckB(16,1,this);">1. В стратегии МО закреплен принцип экологической безопасности</label><br>
+			<label id="lab16_2"><input type="checkbox" onclick="CheckB(16,2,this);">2. В разработке стратегии принимали участие эксперты-экологи</label><br>
+			<label id="lab16_3"><input type="checkbox" onclick="CheckB(16,3,this);">3. Проведена экологическая экспертиза территории МО</label><br>
+			<label id="lab16_4"><input type="checkbox" onclick="CheckB(16,4,this);">4. Составлена экологическая карта МО в перспективной динамике на 5-8 лет</label><br>
+			<label id="lab16_5"><input type="checkbox" onclick="CheckB(16,5,this);">5. Разработан генеральный план МО с указанием неприкосновенных «зеленых зон»</label><br>
+			<label id="lab16_6"><input type="checkbox" onclick="CheckB(16,6,this);">6. Разработаны природоохранные мероприятия</label><br>
+			<label id="lab16_7"><input type="checkbox" onclick="CheckB(16,7,this);">7. Разработаны мероприятия по улучшению экологической ситуации</label><br>
+			<label id="lab16_8"><input type="checkbox" onclick="CheckB(16,8,this);">8. Разработаны меры по привлечению к административной и уголовной ответственности <nobr>лиц нарушающих экологические нормы</nobr></label><br>
+			<label id="lab16_9"><input type="checkbox" onclick="CheckB(16,9,this);">9. Проработаны программы экологического воспитания детей и молодежи </label><br>
+			<label id="lab16_10"><input type="checkbox" onclick="CheckB(16,10,this);">10. Запланировано создание/модернизация очистных сооружений</label><br>
+			<label id="lab16_11"><input type="checkbox" onclick="CheckB(16,11,this);">11. Запланировано введение энергосберегающих технологий</label><br>
+			<label id="lab16_12"><input type="checkbox" onclick="CheckB(16,12,this);">12. Запланировано создание/модернизация центров сортировки/переработки бытового мусора</label><br>
+			<label id="lab16_13"><input type="checkbox" onclick="CheckB(16,13,this);">13. Запланирована модернизация канализационной сети</label><br>
+			</div>
+		</div>
+		<div id="test17">
+			<div class="descr">
+			<p><b>Критерий соответствия местным ресурсам</b>, при которых по укрупненным компонентам местных ресурсов устанавливается, насколько они учтены в стратегии</p>
+			<p>Критерий оценивается по следующим индикаторам:</p>
+			</div>
+			<div class="checkboxes">
+		    <label id="lab17_1"><input type="checkbox" onclick="CheckB(17,1,this);">1. Учтено географическое положение</label><br>
+			<label id="lab17_2"><input type="checkbox" onclick="CheckB(17,2,this);">2. Учтены местные природные условия </label><br>
+			<label id="lab17_3"><input type="checkbox" onclick="CheckB(17,3,this);">3. Учтены местные природные ресурсы</label><br>
+			<label id="lab17_4"><input type="checkbox" onclick="CheckB(17,4,this);">4. Учтено состояние и воспроизводство трудовых ресурсов</label><br>
+			<label id="lab17_5"><input type="checkbox" onclick="CheckB(17,5,this);">5. Учтены особенности производственной инфраструктуры</label><br>
+			<label id="lab17_6"><input type="checkbox" onclick="CheckB(17,6,this);">6. Учтены особенности социальной инфраструктуры</label><br>
+			</div>
+		</div>
+		<div id="test18">
+			<div class="descr">
+			<p><b>Критерий соответствия с документами территориального планирования</b></p>
+			<p>Оценивается, учтены ли особенности различных документов территориального планирования, разработанных для данной территории:</p>
+			</div>
+			<div class="checkboxes">
+		    <label id="lab18_1"><input type="checkbox" onclick="CheckB(18,1,this);">1. Учтены особенности Схемы территориального планирования области</label><br>
+			<label id="lab18_2"><input type="checkbox" onclick="CheckB(18,2,this);">2. Учтены особенности Схем территориального планирования муниципального района <nobr>или Генерального плана городского округа</nobr></label><br>
+			<label id="lab18_3"><input type="checkbox" onclick="CheckB(18,3,this);">3. Учтены документы территориального планирования сопредельных территорий</label><br>
+			<label id="lab18_4"><input type="checkbox" onclick="CheckB(18,4,this);">4. Учтены Схемы охраны природы региона		</label><br>
+			</div>
+		</div>
+		<div id="test19">
+			<div class="descr">
+			<p>Для подсчета итогового результата необходимо определить, какая степень разработанности стратегии была присвоена по каждому из основных параметров и просуммировать число оценок каждого типа.</p>
+			<!--/div -->
+			<table id="res">
+			<tbody><tr>
+			<td>№</td>
+			<td>Показатель стратегического<br>планирования</td>
+			<td style="text-align: center;">1 степень</td>
+			<td style="text-align: center;">2 степень</td>
+			<td style="text-align: center;">3 степень</td>
+			</tr>
+			<tr>
+			<td>1</td><td>Целенаправленности</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			</tr>
+			<tr>
+			<td>2</td><td>Социальности</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			</tr>
+			<tr>
+			<td>3</td><td>Комплексности</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			</tr>
+			<tr>
+			<td>4</td><td>Сбалансированности</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			</tr>
+			<tr>
+			<td>5</td><td>Системности</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			</tr>
+			<tr>
+			<td>6</td><td>Адаптивности</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			</tr>
+			<tr>
+			<td>7</td><td>Эффективности</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			</tr>
+			<tr>
+			<td>8</td><td>Минимизации риска</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			</tr>
+			<tr>
+			<td>9</td><td>Баланса интересов</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			</tr>
+			<tr>
+			<td>10</td><td>Легитимности</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			</tr>
+			<tr>
+			<td>11</td><td>Демократичности</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			</tr>
+			<tr>
+			<td>12</td><td>Профессионализма</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			</tr>
+			<tr>
+			<td>13</td><td>Принципа «первого руководителя»</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			</tr>
+			<tr>
+			<td>14</td><td>Инновационности</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			</tr>
+			<tr>
+			<td>15</td><td>Динамичности</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			</tr>
+			<tr>
+			<td>16</td><td>Устойчивого развития</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			</tr>
+			<tr>
+			<td>17</td><td>Соответствие местным ресурсам</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			</tr>
+			<tr>
+			<td>18</td><td>Соответствие с документами<br>территориального планирования</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			</tr>
+			<tr>
+			<td></td><td>Число оценок определенного типа</td>
+			<td style="text-align: center;">0</td>
+			<td style="text-align: center;">0</td>
+			<td style="text-align: center;">0</td>
+			</tr>
+			</tbody>
+			</table>
+			<div class="checkboxes">
+			<p>Исходя из полученного количественного результата, можно делать вывод о качестве разработки стратегии.</p>
+			<p>В данном случае присвоена:</p>
+			<p id="ans1" style="display:none;"><b>1-я степень – высокое качество разработки стратегии.</b>  1-я степень качества  разработки означает, что представленная к оценке стратегия развития муниципального образования соответствует всем или подавляющему большинству формальных требований, предъявляемых к документам подобного рода, а именно:
+			<br>- данная стратегия разработана, опубликована в официальных изданиях, прошла общественное обсуждение и получила одобрение общественности;
+			<br>- миссия муниципального образования официально заявлена и сформулирована в соответствии с основными требованиями; миссия и стратегия муниципального образования определены на основе PEST, SWOT  и SNW-анализа, не противоречат друг другу, стратегия вытекает из принципов и установок миссии; обоснован выбор одной из нескольких имеющихся стратегических альтернатив;
+			<br>- стратегия разработана как механизм реализации официально принятой и одобренной общественностью концепции социально-экономического развития региона, разработанной на основе PEST-анализа и четко отвечающей на вопрос о целях развития муниципального образования;
+			<br>- стратегические цели определены как конечное состояние, к которому должно прийти муниципальное образование за определенный стратегический период, и как результаты деятельности органов управления, стратегические и оперативные цели дифференцированы по уровню и содержанию, смешения стратегических и тактических характеристик нет;
+			<br>- стратегические задачи определены как управленческие действия для достижения цели, отвечают критериям SMART, набор задач характеризуется полнотой, взаимосвязанностью, дифференциацией, учетом региональной специфики; 
+			<br>- в стратегии разработана система индикаторов (единиц анализа) ее реализации (эффективности), отвечающих формальным требованиям; в стратегии заложена возможность коррекции.
+			</p>
+			<p id="ans2" style="display:none;"><b>2-я степень – среднее качество разработки стратегии.</b>  2-я степень качества  разработки означает, что представленная к оценке стратегия развития муниципального образования соответствует части формальных требований, предъявляемых к документам подобного рода, а именно:
+			<br>- стратегия развития муниципального образования официально декларирована как документ, однако не имеет общественной поддержки;
+			<br>- миссия муниципального образования определена, однако недостаточно проработана; миссия и стратегия определены без PEST, SWOT и SNW-анализа;
+			<br>- концепция развития муниципального образования принята официально, но не получила общего цикла общественной экспертизы; PEST-анализ при разработке концепции не проводился;
+			<br>- стратегические цели развития образования в регионе определены нечетко, допущено смешение стратегических и тактических характеристик;
+			<br>- стратегические задачи развития образования в регионе заявлены, однако не соответствуют SMART-критериям;
+			<br>- система индикаторов (единиц анализа) реализации (эффективности) стратегии разработана недостаточно; в стратегии не заложена возможность коррекции.
+			<br>Стратегия развития муниципального образования нуждается в существенной доработке с учетом указанных недостатков.
+			</p>
+			<p id="ans3" style="display:none;"><b>3-я степень – низкое качество разработки стратегии.</b>  3-я степень качества  разработки означает, что представленная к оценке стратегия развития муниципального образования не соответствует всем или подавляющему большинству формальных требований, предъявляемых к документам подобного рода, а именно:
+			<br>- официального принятого и одобренного документа стратегии развития муниципального образования нет;
+			<br>- миссия региональной системы образования конкретно не определена, стратегия развития муниципального образования не связана с миссией;
+			<br>- концепции развития муниципального образования нет, стратегия не связана со стратегией социально-экономического развития региона;
+			<br>- стратегические цели конкретно не определены;
+			<br>- стратегические задачи поставлены не четко;
+			<br>- система показателей (единиц анализа) реализации (эффективности) стратегии не разработана.
+			<br>Стратегии развития муниципального образования фактически не существует; требуется ее разработка в соответствии с существующими требованиями.
+			</p>
+			</div>
+			</div>
+		</div>
+		<div id="test20">
+			<p id="ness_act"></p>
+		</div>
+	</div><!-- questions -->
+	<span style="background-color:red; width:100px; display:none;" id="prevbtn">< назад</span>
+	<span style="background-color:green;width:100px; display:none;" id="nextbtn">далее ></span>
+  </td>
+  </tr>
+  </tbody></table>
+	<table style="width:100%;height:90%;border:0px solid;">
+	<tbody><tr>
+		<td style="text-align:center;vertical-align:top;text-align:-webkit-center;">
+		<div id="test0">
+		<div class="descr" style="width:1000px;"> <!-- height:800px; overflow-y:scroll; -->
+			<p style="text-align:right">Погребняков П.В.</p>
+			<!-- p style="text-align:center"><b>Оценка качества стратегий социально-экономического развития муниципальных образований</b></p -->
+			<p>Стратегическое планирование - относительно новый вид управленческой деятельности для структур муниципального управления, который сегодня, наряду с территориальным планированием, позиционируется в качестве основного вспомогательного инструмента принятия управленческих решений.</p>
+			<p>Однако до сих пор не существует единых основ и эмпирических показателей, а также инструментария, позволяющего определить характер и оценить эффективность стратегии развития муниципального образования. Такая ситуация породила ряд проблем, которые осложняют эффективное стратегическое планирование развития региона в целом, так как при отсутствии понимания приоритетов и механизмов развития муниципальных образования становится невозможно создать эффективную стратегию регионального уровня.</p>
+			<p>Исходя из анализа принципов стратегического планирования, современных тенденций и требований к процессу стратегического планирования мы выделили 18 критериев оценки, которые помогут максимально точно оценить качество разработки стратегии.</p>
+			<p>Для оценки стратегии необходимо последовательно ознакомиться со всеми группами критериев, отметив те, которые соответствуют разработанной стратегии. После завершения фиксации всех критериев, стратегии будет присвоена степень, которая характеризует качество разработки.</p>
+			<p>Данная методика позволяет не только оценить стратегию развития муниципального образования, но и выявить недостатки, которые можно исправить текущим процессом стратегического управления. Тем самым вердикт является не окончательным, а носит рекомендательный характер, позволяющий в короткие сроки привести стратегический документ любого уровня в состояние 1-й степени разработки.</p>
+			<p style="text-align:right">
+				<span id="startbtn">Произвести<br>оценку</span>
+			</p>
+		</div>
+		</div>
+		</td>
+	</tr>
+	</tbody></table>
+  
+<div class="__disk_root__" style="position: static;"></div></body></html>
